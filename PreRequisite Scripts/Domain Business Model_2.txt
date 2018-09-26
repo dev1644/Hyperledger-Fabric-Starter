@@ -1,0 +1,113 @@
+* Import
+
+  This keyword is used to import a single or multiple resources from a file. 
+  There can be multiple resources in a file too.
+
+** Resource Registeries
+
+   Registeries are the runtime components that manages instances of resources (assests and participants).
+   
+	Each instance which is in the registery has a unique identity (key).
+	Separate registery for each resource type.
+
+** Relationships
+
+   Relationships are the type relation between two resource instances. It is depicted by using "-->".
+   It can be also define as a pointer to specific asset type.
+
+*  Value Assignment
+
+   Value to the specific relationship field should be provided in a specific format.
+
+   It requires fully qualified resource name("namespace" #"Assetname"}) followed by identity of the assests we are assigning to relationship field. 
+
+
+*  Field Validations
+   
+      Field validation is specified by the way of regular expressions. Using keyword "regex=".
+
+	Ex-: o String origin regex=/[A-Z][A-Z][A-Z]/.
+
+*  Number Validations
+   
+      It applies to Double, Long, Integer.
+      Number validation is specified by the way of regular expressions. Using keyword "range=".
+
+	Ex-: o String origin regex=/[A-Z][A-Z][A-Z]/.
+
+
+** Transaction and Evenets
+
+	* Transactions (keyword "transaction")
+ 
+	   Transactions are the actions taken by participants on the assets. State of Assests are changed through transaction.
+	   The Transactions are recorded in the ledger.
+
+	   Transactions are defined as the part of the model. Transaction do have a specific field that is used for identification 
+	   i.e. TransactionID & TimeStamp.
+	
+	   The logic of Transactions are coded in JavaScript file and stored in lib folder of root directory. Annotations are used 
+           to connect the code to the model.
+
+	
+	* Events (keyword "event")
+
+	   Events are emitted by transaction, these events can be retrieved by subscription application.
+	   
+	   Events emitted by transaction are also defined as the part of model. Events do have eventId and TimeStamp.
+
+
+	* Structure/Working with the Transaction.
+	
+	  In JS file , we create function for transaction, the name of the function can be arbritrary and Annotation have information
+	  that connects the function with Model file.
+	
+	  Within the function we will use Composer-API and will emits the event.
+
+	     Ex-:
+		
+		Annotation-: 
+			
+				/**
+				 * Create Flight Transaction
+				 * @param {org.acme.airline.flight.CreateFlight} flightData
+				 * @transaction
+				 */
+	    
+				
+				Here, @param{${namespace.${transaction name}}} and flightdata represents the data as arguments that is 
+				defined in model of the transaction.
+
+
+
+
+** Historian
+
+   Historian is a asset registery that records all of the successful transaction.
+   The assets stored in historian are the system defined asset model known as Historian Record.
+
+   Historian tracks system transaction as well as user defined transaction.
+
+   Historian records may be queried.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+   
+	

@@ -1,0 +1,109 @@
+** Domain Model Files:
+
+   A business domain model defines the represantaion of the Participants, Assests that participants deals with, transaction carried out by
+   participants and events emitted result by a transaction. Composer model language is Object-Oriented.
+
+   A model file have the extension of .cto.
+
+*  The first thing we do in file is to declare namespace & it applies to all resources defined the file.
+   Resources can be Assets, Participants, Transaction, Events.
+
+*  You can also import/export from other model files. Model can be split into multi .cto files.
+
+*  Namespace must be unique across different files.
+
+*  File naming convention: namespace.cto
+
+*  A native System namespace is present, which contains the base definition of any resource.
+
+
+
+** Defining Resources:
+
+*  Defining an Asset:
+	
+	asset Aircraft identified by aircraftId {
+  		o String aircraftId
+	}
+
+	Here, asset is keyword for denfining an asset name and it identified a variable aircraftId in the asset definition.
+	
+	In asset class(I personally call it class), we can define following data types-:
+		
+		o String ${indentifier} seatId		// A UTF8 Encoded String.  
+	
+		o Double ${indentifier} seatId		// A Double precision 64 bit numeric value.
+
+		o Integer ${indentifier} seatId		// A 32 bit signed whole number.
+
+		o Long ${indentifier} seatId		// A 64 bit signed whole number.
+
+		o DateTime ${indentifier} seatId	// An ISO-8601 compatible time instance.
+
+		o Boolean ${indentifier} seatId		// True or false.
+
+
+		
+		Enumeration-:
+
+			It is a User Defined tpye. It allow us to create constant values that are assigned to variable as a value.
+			
+			Data is validated against the user defined enumeration values.
+
+			Keyword "enum" is used for declaring it.
+
+	
+	By default all fields in assests to be required a value at the time of creation, but you can marked the non-required field with keyword optional.
+	
+	Required field can be intialized with default value. Keyword "Default" is used.
+
+** Object oriented properties-:
+   	
+     * Inheritance-: You can extend other resources. The Multiple Inheritence is not supported.
+   
+     * Abstract-: You can mark any class abstract. You cannot instantiate the class after marking abstract.
+		  It supports extension by inheritance.
+
+		  When we create new Resource by extending the ancestor Resource, the type of the Resources should be same (i.e Ancestor).
+
+
+     
+     * Concept-: It is a way to create/define generic classes. It is different from resource classes and resource representaion.
+		 An instance of concept does not represent a Resource.
+
+		 The idea of concept is to grouping together of certain  field and then we can reuse the concepts in resources or in another concept.		
+		 Like other classes, it can be abstracted and can be extended.
+
+	    	 Ex-: abstract participant ACMEParticipant identified by participantKey {
+			  o String    participantKey
+			  o Contact   contact 
+			}
+
+			concept Contact{
+			  o String fName
+			  o String lname
+			  o String email
+			}
+
+			participant ACMENetworkAdmin extends ACMEParticipant {
+			}
+
+			participant ACMEPersonnel extends ACMEParticipant {
+			  o String department
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		

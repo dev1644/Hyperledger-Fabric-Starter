@@ -1,0 +1,172 @@
+1. Install all pre requisite packages for hyperledger Composer.
+
+2. Install YeoMan through npm.
+
+3. Install Composer-cli using npm command npm i -g composer-cli, if you encounter permission error then use this command npm i -g --unsafe-perm composer-cli.
+
+4. Using Same method install composer-rest-server as mentioned in step 3.
+
+5. Install generator-hyperledger-composer, as mentioned in step3. Check the status of installation using yo --generators command.
+
+6. Install a HyperLedger Composer Extenstion in VScode.
+   (Composer Language is used for generating models for Business Applications).
+
+7. Intsall composer-playground via Npm.
+
+8. Install Hyperledger Fabric
+	
+	In a directory of your choice (we will assume ~/fabric-dev-servers), get the .tar.gz file that contains the tools to install Hyperledger Fabric:
+   ~ 	mkdir ~/fabric-dev-servers && cd ~/fabric-dev-servers
+
+	curl -O https://raw.githubusercontent.com/hyperledger/composer-tools/master/packages/fabric-dev-servers/fabric-dev-servers.tar.gz
+	tar -xvf fabric-dev-servers.tar.gz
+
+
+
+	Use the scripts you just downloaded and extracted to download a local Hyperledger Fabric v1.2 runtime:
+   ~ 	cd ~/fabric-dev-servers
+	export FABRIC_VERSION=hlfv12
+	./downloadFabric.sh
+
+
+   	Above Commands will pull the 5-6 docker Images and you can check it by tpying docker images , it will list the downloaded docker images.
+
+9. How to generate models and business network application.
+
+	Yeoman code Generators -:
+		
+	1. Model - Business Model 
+	2. Network Application - A sample modifiable model file for creating own domain model and also includes sample transaction processor also
+	   Includes testcases.
+	3. Web Application (Skeleton)- For builting the front-end.
+
+	Commands-:
+
+	yo hypeledger-composer -: Type it to generate the code.
+	
+	1.Select type of network and fill the subsequent details.
+ 
+		* Model- For generating business model.
+		
+		* Business Network- For generating network application. Lib folder contain a file logic.js. It has a skeleton code to write transactions in
+				    Js. Similarly test folder also contain a logic.js that is used for unit testing using mocha and chai.
+
+
+** User can take multiple roles in a Business Network Application -:
+
+   Peer Administrator    - Administrates the node and can create multiple network administrator.
+   Network Administrator - Administrates the network application and can create multiple user and assigns them rule.
+
+
+** To connect to a network and carrying out activities at business network User must have appropriate roles, credentials and connection profile. 
+
+** Apilcation and tools requires the identity of user and connection information ( both of configuration file stored in CARDS).
+
+** For a application to connect to a network, the application must have access Business Network Cards. Cards have credientials, keys and certificates and
+   connection profile.  
+
+** Structure of Card - :
+
+	             	
+		* Crypto | Credentials.
+		
+		* Composer Connection Profile-:
+				
+				* It contains the information about how reach MSP | CA.
+				* It contains the information about how to reach to Composer Runtime (Peers and Orderers). Information contain URL for each of
+				  this components.
+							
+	
+
+** Cards are stored and managed on file system. ./Composer folder contains two sub-folders i.r cards and client-data (Stores Key files and certificates).
+ 
+   
+** Directory Structure of Cards:
+
+   /home/${user}/.composer/cards
+
+   Cards folder contain the number of cards folder. Name of a Card folder is like xxx@yyy.
+   
+	Here,xxx signifies identity of user and yyy signifies identity of application/node.
+
+   Card folder contain 2 files and a sub-folder -:
+
+   	connection.json      - It have data about name, type, orderers, ca, peers, channel, mspID, timeout.
+	metadata.json	     - It have data about version, username and multiple roles users have.
+  	credentials (Folder) - It contains private key certificate.
+
+
+    Cards are managed by Composer-CLI.
+    
+    Composer CLI can be used for fetching list about cards, type composer card --help.
+
+    You can list create delete card.	  Ex- composer card create
+		
+    You can also import and export card.  Ex- composer card export -n ${card to be exported} -f ${file to the card is to be exported}.
+  
+10. Archiving the Business Model.
+	
+    * Go into project folder, create a folder dist and go into dist and then run the following command.
+
+	Command -: composer archive create -t dir -n ../ 
+
+    ALT: Creating from source folder, make a folder dist and then run the following command. 
+	
+	Command -: composer archive create -a dist/airlinev3.bna --sourceType d
+
+
+11. Deploying a BNA to Hyperledger network (Local)
+
+   * Launch your fabric Network (Using shell scripts).
+   
+   * Verify | Create the Peer Admin Card (Using shell scripts).
+
+   * Install the network application archive to fabric.
+
+	Command - composer network install -a ${archive file} -c {card}
+
+   * Start command on composer cli to start BNA. When this command is executed successfully a new network card will be generated and will be
+     available on local file system. Network card needs to be depolyed by network administrator on their machine so that they can carry
+     out administrative action on business network
+
+	Command - composer network start -c PeerAdmin@hlfv1 -n test-bna -V 0.0.1 -A admin -S adminpw
+	
+		 	-c Card used to start the network.
+			-n Name of the network insalled previously by through archive file.	
+			-V version of the network.
+			-A Name of network administrator (Username)
+			-S A secret (password).
+
+   * After starting network, a network administrator's card will be created.
+	
+	To Import the card use
+		
+		Command - composer card import -f ${name}.
+
+
+   * Checking status and pinging the network.
+     Network Administrator card is required to be deployed/imported.
+	
+	Commands-
+		composer network ping -c{cardName} - Use to check the availability of network application.
+ 		composer network list -c{cardName} - Use to check the details of network application. Lists regiesteries about network application.
+
+
+
+12. Chaincode of the application can be upgraded. Stpes to upgrade chaincode-:
+
+	* Create Archive for the new version of BNA.
+	
+	* Install the new version of archive.
+
+	* List the network application and use command- 
+		
+		composer network upgrade -c ${PeerAdminCard} -n ${name of archive file} -V ${version}
+
+    Pre-requisites to upgrade -: You have to change the version in the json file before archiving and installing.
+
+
+
+
+		
+

@@ -1,0 +1,33 @@
+
+
+*  Participants needs a card to interact with the BNA.
+
+*  Participants are then assigned the role after the issuing of Card. Roles are used to manage the permission of the participants.
+
+*  Network Administrator or user with authority to issue card is responsible for issuing the cards to participants.
+
+*  Composer-CLI provides two command for managing identity on fabric network. The user executing these command must have the valid card 
+   and authority to for succesfull execution.
+
+	This command is used for adding the participant to the BNA.	
+       
+	Command:  composer participant add.
+
+	This command is used for multiple action about identites surrounding BNA.
+
+ 	Command:  composer identity add.
+		
+		SubCommands -
+		
+			bind    - Binds existing identity (certificate) to a participant.
+			issue   - Issues new identity (certificate) to a participant.
+			list    - List the identity (certificate) of participants.
+			request - Get a card for existing identity.
+			revoke  - Will revoke the identity in the BNA.
+
+
+* Steps to create New Identities -:
+
+	Step 1 -: Create the participant.
+
+	Step 1 -: Create the participant.

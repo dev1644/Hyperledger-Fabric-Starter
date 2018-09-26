@@ -1,0 +1,79 @@
+
+** Quereis 
+
+   Resources defined in a BNA model are managed in persistent store. 
+   These resources can be queried at runtime using composer query language which is very sql like.
+
+  
+   There are two type of queries-:
+   
+	   Named Query- 
+	    
+	    It is defined as the part of Business Network Model.
+	    
+	    It is exposed by REST API by composer-rest-server component.
+
+	    All queries are defined in a single file called queries.qry with in model project root folder. 
+
+	    	* Structure of Named Query
+
+			query{
+			
+				desciprtion: ${Provides the description of query}
+				
+				statement:   ${A SQL like query Language}		
+			}
+
+	  
+			Query Language Parameters:
+
+	     		   Use the _${param-name} syntax. Ex- _$flightNumber.
+			   
+                           Only primitive types are allowed. (We Cannot use the Resource name as type of a parameter).
+			   Primitive Types are:
+
+				String, Integer, Double, Long, Boolean, DateTime. 	
+			
+			Statement Operators-:
+	
+				SELECT: Mandatory Operator. Defines Registry and Asset or Participant type.
+
+				FROM     : Optional Operator. Defines a differnt registery to query.
+				
+				WHERE    : Optional Operator. Defines the condition to be applied to the registery data.
+			
+				AND OR   : Optional logical operator used in WHERE clause.
+		
+				LIMIT    : Optional operator, defines the maximum number of result. Defualt = 25
+		
+				SKIP     : Optional operator, defines the number of results to skip.
+
+				ORDER BY : Optional operator, defines the sorting of results to skip , ASC | DESC.
+				
+				CONTAINS : Optional operator, Applied to array attribute.
+
+					
+					Ex-: 	// Uses the Limit and Skip
+						query AllFlightsSkipLimit {
+						  description: "Limits the number of flights returned"
+						  statement:  
+						    SELECT  org.acme.airline.flight.Flight
+						      LIMIT  _$limit
+							SKIP   _$skip
+						}
+
+						// Selects flights based on the origin and destination
+						query FlightsOriginAndDestination {
+						  description: "Returns all flights in the registry"
+						  statement:  
+						    SELECT  org.acme.airline.flight.Flight
+						      WHERE   (route.origin == _$origin_airport AND route.destination  == _$destination_airport )
+						}
+
+
+	   Dynamic Query-
+
+	    It is constructed dynmaically at the runtime.
+
+	    To create dynamic queries you need to use composer API, it can be used in Transaction processor function.
+

@@ -1,0 +1,18 @@
+
+** Rest Server:
+
+   "A standalone NodeJs Porcess that exposes the business network (Resources) as REST API". 
+   It is one of the composer tools used for exposing business network model in the form of REST API.
+ 
+   Developer can hit the explorer URL to get the information about API and can use and test the APIs.
+
+   Applications can directly connect to the Rest Server. The application can invoke CRUD operations and models the transaction.
+
+*  Rest Server can be invoked by command: composer-rest-server.
+   It can be launched in the interactive and command line mode.
+
+
+*  TLS & Authentication with REST-Server.
+
+
+
