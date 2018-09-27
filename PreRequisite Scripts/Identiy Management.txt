@@ -28,6 +28,47 @@
 
 * Steps to create New Identities -:
 
-	Step 1 -: Create the participant.
+	Step 1 -: Create the participant Instance.
+		
+			Network Administrator or user with authority to issue card is responsible for issuing the cards to participants.
+			
+			Participants can be created by using by one of the following methods -:
+			
+				* Command: composer participant add [options]
+						
+						-c we have to provide card name.
+						-d we have to provide a JSON representation about participants (according to its define in model).
 
-	Step 1 -: Create the participant.
+						Ex-: composer participant add -d '{"$class": "org.acme.airline.participant.ACMENetworkAdmin",
+						     "participantKey":"1","contact":{"$class":"org.acme.airline.participant.Contact",
+						     "fName":"Ram","lname":"Shyam","email":"ram@hot.com"}}' -c admin@airlinev1		
+					 
+				* Using SDK/AUse tPI for adding the participants.
+				* Use tools such as Playground | Rest Server.
+		
+
+	Step 2 -: Binds an identity to participant in BNA.
+
+			A new identity is issued or existing identity is bind to the particpant of BNA.
+			
+			This task is carried by Network Administrator or user with authority to issue identity.
+
+			Identities can be created by using by one of the following methods -:
+	
+				* Command: composer identity issue [options]
+					 	
+						-u To provide the name of idenetity.
+						-a Name of the identity that will be bound to participant  (Fully Qualified).
+						-c CardName
+						-x If this user can create new identity or not.
+						
+						Ex: composer identity issue -u 1 -a org.acme.airline.participant.ACMENetworkAdmin#1 -c admin@airlinev1 -x
+						
+	Step 3 -: User/Participant import the identity bounded card that was generated from previous step.
+
+			* Command: card import -f${file-name}.
+
+
+
+
+

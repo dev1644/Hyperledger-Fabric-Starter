@@ -1,0 +1,110 @@
+
+*  Access Control Langauge
+
+   This langauge allows us to create access control rules for the various resources in BNA.
+  
+   There are two ways in which access control is implemented -:
+ 
+	1. Programmatic Way: The conditional and logical statements are added in the transaction processing functions.
+			     It compares user context and transaction data. First all the conditions are verified then
+			     the actual action is taken if conditions are not validated then a error can be thrown.
+
+	2. Declarative Way : The rules are defined by composer's Access Control Language. We don't have to code,
+			     we just needs to declare the rules in the File.
+
+   Access Control Language provides Declarative access control over the elements of the domian model.
+
+   All of the Access Control Rules are defined in a single file name "permissions.acl", it is placed in the root folder of BNA.
+   If this is file is missing then everything is permitted.
+
+   Rule is associated with few things:
+
+	1. Resource: Resource for which access decision is need to be made.
+
+	2. Participant:Type of participant to which rule applies. 
+
+	3: Operation: The operation represents the CRUD operation.
+	
+	4: Transaction: This is optional, if the rule is required some transaction to be done.
+
+	5: Condition: Conditions are applies to Conditional Rule.
+
+   There are two type of Rules: 
+
+	1. Simple Rule: Controls access to namespace,asset or property of an asset by a paticipant type or its instance.
+
+	2. Conditional Rule: Boolean JS Expression evaluated at Runtime to ALLOW or DENY access to the resource by the participant.
+
+
+
+*  Structure of Rule.
+	
+    The structure of the rule is  like JSON objects.
+
+	rule ${Name-of-the-Rule} {
+
+		desciprtoion :  ${Description of the Rule}
+		
+		resource:	${Fully qualified resource specification}
+
+		participant: 	${Fully qualified participant specification}
+
+		operation:	${"ALL" or CommaSpearated "CRUD"}
+	
+		action: 	${"ALLOW" or "DENY"}
+	}
+
+	Abover structure is for the simple rule , For a complex rule you can create a transaction and condition.
+
+	     **Diving deeper into rules:
+
+		  1. Resource - A rule access to the resource. The resource specification includes both system and application defined namespace.
+			     Ex-:
+
+			      System defined Namespace: org.hyperledger.composer.system
+							System namespace contains all of the commands available in Composer-CLI.
+				
+
+			      Application defined Namespace:
+ 
+				Specific resource class	   -  	org.acme.airline.Aircraft
+				Specific instance of class -	org.acme.airline.aircraft#CRAFT01
+				All resource in Namespace  -	org.acme.airline.*
+								org.acme.airline.** (Recursive) Means- 	It will include all resources in namespace
+													as well as all resources that are extending 
+													this namespace.
+
+
+
+
+                  2. Participant - A rule maybe specific to a participant type. You can also define for all of the paricipant by using keyword "ANY".     
+				
+					
+					System Level: org.hyperledger.composer.system.NetworkAdmin
+
+					App Level : org.acme.airline.participant.* OR  org.acme.airline.participant.ACMEPersonal.
+				
+		  3. Operation -   A rule resposible for applying this operation to a particular asset by a participant.
+				
+				  CRUD operations are used for applying operation.
+
+
+* Rules processing in Runtime:
+
+	Checks the permission.acl exists ? "Runtime enviroments start exec reules in sequence manner": Granted.
+
+	Then the subsequent rules are check if the Rules matched then access is granted and if not then access is denied.	
+
+
+* Rules Testing:
+
+
+	1. Update the BNA application (Install & Import card)
+
+	2. Create a participant and issue an identity.	
+
+	3. Launch Rest Server to monitor the success of creation of AirCraft.
+			
+				
+
+   

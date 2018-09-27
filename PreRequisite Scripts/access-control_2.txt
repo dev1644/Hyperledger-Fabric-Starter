@@ -1,0 +1,35 @@
+
+Best Practice for defining access control:
+
+   Exposing CRUD operations for resuouce by the way of Transactions.
+   
+   Above approach will insure that-:
+	
+	* Business logic cannot be by-passed.
+	* Data stays consistent.
+	* Prevents unauthorized changes. 
+
+** Transaction-:
+
+   We have to provide specification of the transaction in the rule.
+
+	Conditions expression are used to validate the access based on the condition it has been imposed.
+	
+ 		Condition elements can access various elements in the exectuion context by the way of Symbolic Access. You can associate symbols with
+		elements in the rule. 
+	
+			Ex-:
+				participant(p)	: "org.example.SampleParticipant"
+				resource(r)	: "org.example.SampleAsset"
+				condition	: (r.owner.getIndetifier()==p.getIdentifier())
+
+	
+	Complex Conditions are also supported. We can create a utility function in a script file.
+
+			Ex-:
+				participant(p)	: "org.example.SampleParticipant"
+				resource(r)	: "org.example.SampleAsset"
+				condition	: (evaluateAccess(r,p))
+
+		
+

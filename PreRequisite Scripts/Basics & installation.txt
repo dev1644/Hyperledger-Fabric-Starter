@@ -112,7 +112,7 @@
 
     ALT: Creating from source folder, make a folder dist and then run the following command. 
 	
-	Command -: composer archive create -a dist/airlinev3.bna --sourceType d
+	Command -: composer archive create -a dist/airlinev3.bna --sourceType d --sourceName .
 
 
 11. Deploying a BNA to Hyperledger network (Local)
@@ -164,9 +164,6 @@
 		composer network upgrade -c ${PeerAdminCard} -n ${name of archive file} -V ${version}
 
     Pre-requisites to upgrade -: You have to change the version in the json file before archiving and installing.
-
-
-
 
 		
 
