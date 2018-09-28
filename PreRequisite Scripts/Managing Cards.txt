@@ -1,0 +1,32 @@
+
+*  You can store cards in FileSystem, Ram, Database and Cloud Storage.
+
+*  Generally, If there is any Mid-Tier Application System betwe en user and Fabric network, the cards are stored in that Application
+   by wallets.
+
+*  APIs for managing the Business Cards.
+	
+	* IdCard - This class encapsulate the attributes of Business Network Class.
+	
+ 	* BusinessNetworkCardStore - It is available under the Common APIs, We use object of this class to manage the cards in persistent storage.
+				     Accessors functions are used to retrieve cards from storage.
+					
+				     It is an abstract class, so creating new instance is impossible. We will use NetworkCardStoreManager Instance
+				     to create BusinessNetworkCardStore.
+
+	* NetworkCardStoreManager -  It is a factory method for creating insatnce of BusinessNetworkCardStore. There is only a single instance available
+				     of NetworkCardStoreManager by the means of a common API.
+
+				     Within our application process we access the instance of NetworkCardStoreManager like this -:
+
+					Ex- const NetworkCardStoreManager = require('composer-common').NetworkCardStoreManager;
+
+					
+				     This class exposes only a single function i.r getCardStore(type) //Here type represents the Wallet type.
+
+					There are two pre-defined wallet types -:
+
+						var cardType = { type: 'composer-wallet-filesystem' }
+						var cardType = { type: 'composer-wallet-inmemory' }
+
+ 

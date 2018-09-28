@@ -1,0 +1,66 @@
+ 
+*  In order to a mid-tier application to take action on fabric-network or any BNA, the application needs to connect to Fabric Runetime.
+
+*  Using two classes , we can make a connection to fabric network.
+
+	1. Admin Connection.
+
+	2. Business Network Connection Class.
+
+
+1. Admin Connection -:
+
+	AdminConnection class is available under the admin module. An application can create instance of this class to  -:
+
+		* Take Administrative actions on Fabric Runtime.
+		* Administrative actions on Business Network Application.
+		
+	BusinessNetworkConnection class is used to Execute transaction, CRUD Operations, Receive events on BNA. 
+	This class is avialble under client module.
+
+
+	Both the classes are required to call connect function with the Card Name.
+
+	
+	AdminConnection class's instance is created by using "New" operator, constructor needs a JSON object that provides
+	"Wallet type". 
+	
+	After creating the instance , we can connect using connect("cardName") and disconnect using disconnect().
+
+		Two types of connection functions will be available -:
+
+			* Card Related Functions:
+
+				getAllCards   hasCard   deleteCard   importCard   exportCard
+	
+			* BNA Management Functions:
+
+				install   start   list   ping   reset   upgrade
+
+
+	To install a archive in Fabric Runtime, we can use install fucntion:
+
+		install() functions needs an instance of BusinessNetworkDefinition
+		
+			Ex:
+			    Install(BusinessNetworkDefiniton, ...)
+			    start(..)
+
+			    To Upgrade:
+			   	 Install(BusinessNetworkDefiniton, ...)
+			    	 upgrade(Version, ...).
+
+
+
+
+	* BusnessNetworkDefintion Class is available unser Common module. It represents the BNA, It encapsulates the
+	  Meta-Data , Domain specific resource model, Scripts.
+
+	  To create instance of BusnessNetworkDefintion there are two ways-:
+		
+		1. fromArchive()  , It reads BNA archive file to create the instance of BNA
+		2. fromDirectory(), It reads the model from content Directory.
+
+
+
+
